@@ -7,8 +7,8 @@ build-backend = "setuptools.build_meta"
 
 
 [project]
-name = "carbonplan-project"
-description = "CarbonPlan Python project template"
+name = "xrefcoord"
+description = "xrefcoord util"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [{name = "CarbonPlan", email = "tech@carbonplan.org"}]

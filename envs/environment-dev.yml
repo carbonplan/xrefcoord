@@ -1,9 +1,28 @@
-name: carbonplan-project-tests
+name: xrefcoord
 channels:
   - conda-forge
   - nodefaults
 dependencies:
+  - python==3.10
+  - fsspec
+  - git
+  - imagecodecs
+  - jupyter
+  - numpy
+  - pip
   - pre-commit
   - pytest
   - pytest-cov
   - pytest-mypy
+  - python==3.10
+  - rasterio
+  - rioxarray
+  - s3fs
+  - scipy
+  - tifffile
+  - xarray 
+  - zarr
+  - pip:
+      - git+https://github.com/fsspec/filesystem_spec
+      - git+https://github.com/fsspec/kerchunk.git
+      - -e ../.
