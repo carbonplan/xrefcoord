@@ -63,4 +63,4 @@ jobs:
 
       - name: Tests # run tests (includes mypy checks and coverage export)
         run: |
-          python -m pytest
+          python3 -m pytest tests
