@@ -10,10 +10,7 @@ import pytest
 )
 def test_end_2_end(ex_path):
     import fsspec
-    import imagecodecs.numcodecs
     import xarray as xr
-
-    imagecodecs.numcodecs.register_codecs()
     from kerchunk.tiff import tiff_to_zarr
 
     # load xarray/rioxarray data
