@@ -1,6 +1,8 @@
 from importlib.metadata import PackageNotFoundError as _PackageNotFoundError
 from importlib.metadata import version as _version
 
+from .accessors import XRefDatasetAccessor  # noqa
+
 try:
     __version__ = _version(__name__)
 except _PackageNotFoundError:
