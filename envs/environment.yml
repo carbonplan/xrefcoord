@@ -3,9 +3,9 @@ channels:
   - conda-forge
   - nodefaults
 dependencies:
-  - python=3.10
   - fsspec
   - git
+  - hypothesis
   - imagecodecs
   - jupyter
   - numpy
@@ -14,6 +14,7 @@ dependencies:
   - pytest
   - pytest-cov
   - pytest-mypy
+  - python=3.10
   - rasterio
   - rioxarray
   - s3fs
