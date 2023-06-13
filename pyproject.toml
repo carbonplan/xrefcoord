@@ -8,7 +8,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "xrefcoord"
-description = "xrefcoord util"
+description = "Coordinate generation for Kerchunk TIFF reference datasets"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [{name = "CarbonPlan", email = "tech@carbonplan.org"}]
@@ -24,20 +24,17 @@ classifiers = [
     "Topic :: Scientific/Engineering",
 ]
 dependencies = [
-    "carbonplan",
-    "carbonplan[styles]",
-    "carbonplan[data]",
     "zarr",
-    "intake",
-    "intake-xarray"
+    "kerchunk",
+    "rioxarray"
 ]
 dynamic = ["version"]
 
 [project.urls]
-repository = "https://github.com/carbonplan/python-project-template"
+repository = "https://github.com/carbonplan/xrefcoord"
 
 [tool.setuptools.packages.find]
-include = ["carbonplan_project*"]
+include = ["xrefcoord*"]
 
 [tool.setuptools_scm]
 local_scheme = "node-and-date"
@@ -102,7 +99,7 @@ select = [
 max-complexity = 18
 
 [tool.ruff.isort]
-known-first-party = ["carbonplan-project"]
+known-first-party = ["xrefcoord"]
 
 [tool.pytest.ini_options]
 console_output_style = "count"

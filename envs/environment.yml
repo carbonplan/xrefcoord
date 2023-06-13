@@ -3,7 +3,7 @@ channels:
   - conda-forge
   - nodefaults
 dependencies:
-  - python==3.10
+  - python=3.10
   - fsspec
   - git
   - imagecodecs
@@ -14,13 +14,12 @@ dependencies:
   - pytest
   - pytest-cov
   - pytest-mypy
-  - python==3.10
   - rasterio
   - rioxarray
   - s3fs
   - scipy
   - tifffile
-  - xarray 
+  - xarray
   - zarr
   - pip:
       - git+https://github.com/fsspec/filesystem_spec

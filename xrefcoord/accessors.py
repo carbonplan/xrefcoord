@@ -1,8 +1,8 @@
 import xarray as xr
 
-
-from .coords import _drop_dims, _get_shape, _generate_coords, _assign_rename_coords
+from .coords import _assign_rename_coords, _drop_dims, _generate_coords, _get_shape
 from .validation import _validate_attrs
+
 
 class XRefAccessor:
     """
@@ -13,8 +13,7 @@ class XRefAccessor:
         self.xarray_obj = xarray_obj
 
 
-
-@xr.register_dataset_accessor('xref')
+@xr.register_dataset_accessor("xref")
 class XRefDatasetAccessor(XRefAccessor):
     """xrefcoord accessor for xarray dataset objects"""
 
@@ -37,12 +36,12 @@ class XRefDatasetAccessor(XRefAccessor):
 
         # Generate coords
         coord_dict = _generate_coords(self.xarray_obj.attrs, shape)
-        
+
         # Drop extra multiscale dims
-        ds = _drop_dims(ds = self.xarray_obj, x_dim_name=x_dim_name, y_dim_name=y_dim_name)
+        ds = _drop_dims(ds=self.xarray_obj, x_dim_name=x_dim_name, y_dim_name=y_dim_name)
 
         # Assign and rename coords
-        ds = _assign_rename_coords(ds= ds, coord_dict = coord_dict, x_dim_name = x_dim_name, y_dim_name = y_dim_name)
+        ds = _assign_rename_coords(
+            ds=ds, coord_dict=coord_dict, x_dim_name=x_dim_name, y_dim_name=y_dim_name
+        )
         return ds
-        
-    
