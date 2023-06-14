@@ -33,7 +33,7 @@ jobs:
       - name: List
 
         run: |
-          echo "$AWS_NO_SIGN_REQUEST $GDAL_DISABLE_READDIR_ON_OPEN
+          echo "$AWS_NO_SIGN_REQUEST $GDAL_DISABLE_READDIR_ON_OPEN"
 
       # Checkout current git repository
       - name: Checkout
