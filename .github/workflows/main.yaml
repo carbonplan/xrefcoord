@@ -21,13 +21,14 @@ jobs:
       matrix:
         python-version: ['3.10']
         os: [ubuntu-latest]
-    env:
-      AWS_NO_SIGN_REQUEST: 'YES'
+
     timeout-minutes: 30
     defaults:
       run:
         shell: bash -l {0}
-
+    env:
+      AWS_NO_SIGN_REQUEST: 'YES'
+      GDAL_DISABLE_READDIR_ON_OPEN: 'EMPTY_DIR'
     steps:
       # Checkout current git repository
       - name: Checkout
