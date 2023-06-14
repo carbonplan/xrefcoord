@@ -5,7 +5,7 @@ import pytest
     "ex_path",
     [
         "https://github.com/fsspec/kerchunk/blob/main/kerchunk/tests/lcmap_tiny_cog_2019.tif?raw=true",
-        # "s3://sentinel-cogs/sentinel-s2-l2a-cogs/44/P/MT/2022/5/S2A_44PMT_20220525_0_L2A/AOT.tif",
+        "s3://sentinel-cogs/sentinel-s2-l2a-cogs/44/P/MT/2022/5/S2A_44PMT_20220525_0_L2A/AOT.tif",
     ],
 )
 def test_end_2_end(ex_path):
