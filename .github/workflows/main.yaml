@@ -29,6 +29,9 @@ jobs:
     env:
       AWS_NO_SIGN_REQUEST: 'YES'
       GDAL_DISABLE_READDIR_ON_OPEN: 'EMPTY_DIR'
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-west-2
     steps:
       - name: List
 
