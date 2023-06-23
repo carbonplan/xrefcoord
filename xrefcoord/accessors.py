@@ -20,15 +20,19 @@ class XRefDatasetAccessor(XRefAccessor):
     def validate_attrs(self):
         _validate_attrs(self.xarray_obj.attrs)
 
-    def generate_coords(self, x_dim_name: str, y_dim_name: str):
-        """_summary_
-
+    def generate_coords(
+        self, time_dim_name: str = None, x_dim_name: str = None, y_dim_name: str = None
+    ):
+        """Generate coords
+        :param time_dim_name: Time dimension name to keep
+        : param time_dim_name: str
         :param x_dim_name: X dimension name to keep
         :type x_dim_name: str
         :param y_dim_name: Y dimension name to keep
         :type y_dim_name: str
         """
         # Validate
+        # import pdb; pdb.set_trace()
         self.validate_attrs()
 
         # Generate shape
@@ -38,7 +42,12 @@ class XRefDatasetAccessor(XRefAccessor):
         coord_dict = _generate_coords(self.xarray_obj.attrs, shape)
 
         # Drop extra multiscale dims
-        ds = _drop_dims(ds=self.xarray_obj, x_dim_name=x_dim_name, y_dim_name=y_dim_name)
+        ds = _drop_dims(
+            ds=self.xarray_obj,
+            time_dim_name=time_dim_name,
+            x_dim_name=x_dim_name,
+            y_dim_name=y_dim_name,
+        )
 
         # Assign and rename coords
         ds = _assign_rename_coords(
