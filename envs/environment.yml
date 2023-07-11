@@ -3,26 +3,30 @@ channels:
   - conda-forge
   - nodefaults
 dependencies:
+  # Required dependencies
+  - python=3.10
+  - xarray
+  - zarr
+  # Optional dependencies
   - fsspec
-  - git
-  - hypothesis
+  - s3fs
+  - dask
+  - rioxarray
+  - rasterio
   - imagecodecs
+  - matplotlib
+  - tifffile
+  - xarray-datatree
+  # Development dependencies
+  - git
   - earthaccess
   - jupyter
-  - numpy
-  - pip
   - pre-commit
   - pytest
   - pytest-cov
   - pytest-mypy
-  - python=3.10
-  - rasterio
-  - rioxarray
-  - s3fs
-  - scipy
-  - tifffile
-  - xarray
-  - zarr
+  # Pip dependencies
+  - pip
   - pip:
       - git+https://github.com/fsspec/filesystem_spec
       - git+https://github.com/fsspec/kerchunk.git
