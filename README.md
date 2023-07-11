@@ -7,7 +7,7 @@
 
 # xrefcoord
 
-A small utility for generating coordinates for GeoTiffs accessed through kerchunk reference files
+A small utility for generating coordinates for GeoTiffs accessed through Kerchunk reference files.
 
 [![CI](https://github.com/carbonplan/xrefcoord/actions/workflows/main.yaml/badge.svg)](https://github.com/carbonplan/xrefcoord/actions/workflows/main.yaml)
 [![License](https://img.shields.io/github/license/carbonplan/xrefcoord?style=flat)](https://github.com/carbonplan/xrefcoord/blob/main/LICENSE)
