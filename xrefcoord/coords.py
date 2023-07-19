@@ -19,8 +19,34 @@ def _get_shape(ds: xr.Dataset) -> tuple:
     return ds[list(ds.variables)[0]].shape  # 0th level
 
 
+def _generate_multiscale_coords(ds: xr.Dataset) -> dict:
+    """If reference TIFF dataset contains multiscales, ie pyramid levels, generate coords for each level and assign each coord to a leaf of a datatree object."""
+
+    import datatree
+
+    if "multiscales" not in ds.attrs:
+        raise AttributeError(
+            "multiscales missing from ds.attrs. Perhaps this reference tiff is only single level. If so, set `multiscales=False`"
+        )
+
+    levels = ds.attrs["multiscales"][0]["datasets"]
+
+    multiscale_level_dict = {str(list(lvl.values())[0]): ds[list(lvl.values())] for lvl in levels}
+
+    dt = datatree.DataTree.from_dict(multiscale_level_dict)
+
+    for node in list(dt):
+        dim_names = list(dt[node].ds.dims)
+
+        dt[node].ds = dt[node].ds.xref.generate_ds_coords(
+            time_dim_name=dim_names[0], y_dim_name=dim_names[1], x_dim_name=dim_names[2]
+        )
+
+    return dt
+
+
 def _generate_coords(attrs: dict, shape: tuple) -> dict:
-    # Taken from kerchunk
+    # Adapted from kerchunk
     """Produce coordinate arrays for given variable
 
     Specific to GeoTIFF input attributes
@@ -36,6 +62,15 @@ def _generate_coords(attrs: dict, shape: tuple) -> dict:
     import numpy as np
 
     imagecodecs.numcodecs.register_codecs()
+
+    if "ModelTiepoint" not in attrs:
+        raise AttributeError(
+            "ModelTiepoint attribute missing from dataset attrs. Coordinate generation is not supported if this attribute is missing."
+        )
+    if "ModelPixelScale" not in attrs:
+        raise AttributeError(
+            "ModelPixelScale attribute missing from dataset attrs. Coordinate generation is not supported if this attribute is missing."
+        )
 
     height, width = shape[-2:]
     xscale, yscale, zscale = attrs["ModelPixelScale"][:3]

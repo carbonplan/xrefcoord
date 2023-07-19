@@ -1,6 +1,13 @@
+import datatree
 import xarray as xr
 
-from .coords import _assign_rename_coords, _drop_dims, _generate_coords, _get_shape
+from .coords import (
+    _assign_rename_coords,
+    _drop_dims,
+    _generate_coords,
+    _generate_multiscale_coords,
+    _get_shape,
+)
 from .validation import _validate_attrs
 
 
@@ -20,9 +27,18 @@ class XRefDatasetAccessor(XRefAccessor):
     def validate_attrs(self):
         _validate_attrs(self.xarray_obj.attrs)
 
-    def generate_coords(
+    def generate_multiscale_coords(self) -> datatree.DataTree:
+        """If a reference TIFF contains multiscales (pyramids), generates coords for each pyramid level
+        and assigns each pyramid level to the leaf of a datatree.
+
+
+        """
+        dt = _generate_multiscale_coords(ds=self.xarray_obj)
+        return dt
+
+    def generate_ds_coords(
         self, time_dim_name: str = None, x_dim_name: str = None, y_dim_name: str = None
-    ):
+    ) -> xr.Dataset:
         """Generate coords
         :param time_dim_name: Time dimension name to keep
         : param time_dim_name: str
@@ -32,7 +48,6 @@ class XRefDatasetAccessor(XRefAccessor):
         :type y_dim_name: str
         """
         # Validate
-        # import pdb; pdb.set_trace()
         self.validate_attrs()
 
         # Generate shape
