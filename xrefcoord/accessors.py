@@ -28,9 +28,9 @@ class XRefDatasetAccessor(XRefAccessor):
         _validate_attrs(self.xarray_obj.attrs)
 
     def generate_multiscale_coords(self) -> datatree.DataTree:
-        """If a reference TIFF contains multiscales (pyramids), generates coords for each pyramid level
+        """
+        If a reference TIFF contains multiscales (pyramids), generates coords for each pyramid level
         and assigns each pyramid level to the leaf of a datatree.
-
 
         """
         dt = _generate_multiscale_coords(ds=self.xarray_obj)
