@@ -50,7 +50,7 @@ def _generate_coords(ds, x_dim_name: str, y_dim_name: str) -> dict:
 
     import imagecodecs.numcodecs
 
-    imagecodecs.numcodecs.register_codecs()
+    imagecodecs.numcodecs.register_codecs(verbose=False)
 
     if "ModelTiepoint" not in ds.attrs:
         raise AttributeError(
