@@ -45,37 +45,38 @@ def _generate_multiscale_coords(ds: xr.Dataset) -> dict:
     return dt
 
 
-def _generate_coords(attrs: dict, shape: tuple) -> dict:
+def _generate_coords(ds, x_dim_name: str, y_dim_name: str) -> dict:
     # Adapted from kerchunk
-    """Produce coordinate arrays for given variable
 
-    Specific to GeoTIFF input attributes
-
-    Parameters
-    ----------
-    attrs: dict
-        Containing the geoTIFF tags, probably the root group of the dataset
-    shape: tuple[int]
-        The array size in numpy (C) order
-    """
     import imagecodecs.numcodecs
-    import numpy as np
 
     imagecodecs.numcodecs.register_codecs()
 
-    if "ModelTiepoint" not in attrs:
+    if "ModelTiepoint" not in ds.attrs:
         raise AttributeError(
             "ModelTiepoint attribute missing from dataset attrs. Coordinate generation is not supported if this attribute is missing."
         )
-    if "ModelPixelScale" not in attrs:
+    if "ModelPixelScale" not in ds.attrs:
         raise AttributeError(
             "ModelPixelScale attribute missing from dataset attrs. Coordinate generation is not supported if this attribute is missing."
         )
+    import dask.array as da
 
-    height, width = shape[-2:]
-    xscale, yscale, zscale = attrs["ModelPixelScale"][:3]
-    x0, y0, z0 = attrs["ModelTiepoint"][3:6]
-    out = {}
-    out["x"] = np.arange(width) * xscale + x0 + xscale / 2
-    out["y"] = np.arange(height) * -yscale + y0 - yscale / 2
-    return out
+    def gen_xcoords(ds):
+        shape = ds[list(ds.variables)[0]].shape
+        xscale = ds.attrs["ModelPixelScale"][0]
+        x0 = ds.attrs["ModelTiepoint"][3]
+
+        return xr.DataArray(da.arange(shape[-1]) * xscale + x0 + xscale / 2, dims="x")
+
+    def gen_ycoords(ds):
+        shape = ds[list(ds.variables)[0]].shape
+        yscale = ds.attrs["ModelPixelScale"][1]
+        y0 = ds.attrs["ModelTiepoint"][4]
+
+        return xr.DataArray(da.arange(shape[-2]) * -yscale + y0 - yscale / 2, dims="y")
+
+    ds[x_dim_name] = gen_xcoords(ds)
+    ds[y_dim_name] = gen_ycoords(ds)
+
+    return ds

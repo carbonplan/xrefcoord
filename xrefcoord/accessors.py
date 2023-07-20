@@ -2,8 +2,6 @@ import datatree
 import xarray as xr
 
 from .coords import (
-    _assign_rename_coords,
-    _drop_dims,
     _generate_coords,
     _generate_multiscale_coords,
     _get_shape,
@@ -51,21 +49,21 @@ class XRefDatasetAccessor(XRefAccessor):
         self.validate_attrs()
 
         # Generate shape
-        shape = _get_shape(self.xarray_obj)
+        _get_shape(self.xarray_obj)
 
         # Generate coords
-        coord_dict = _generate_coords(self.xarray_obj.attrs, shape)
+        ds = _generate_coords(self.xarray_obj, x_dim_name=x_dim_name, y_dim_name=y_dim_name)
 
         # Drop extra multiscale dims
-        ds = _drop_dims(
-            ds=self.xarray_obj,
-            time_dim_name=time_dim_name,
-            x_dim_name=x_dim_name,
-            y_dim_name=y_dim_name,
-        )
+        # ds = _drop_dims(
+        #     ds=self.xarray_obj,
+        #     time_dim_name=time_dim_name,
+        #     x_dim_name=x_dim_name,
+        #     y_dim_name=y_dim_name,
+        # )
 
-        # Assign and rename coords
-        ds = _assign_rename_coords(
-            ds=ds, coord_dict=coord_dict, x_dim_name=x_dim_name, y_dim_name=y_dim_name
-        )
+        # # Assign and rename coords
+        # ds = _assign_rename_coords(
+        #     ds=ds, coord_dict=coord_dict, x_dim_name=x_dim_name, y_dim_name=y_dim_name
+        # )
         return ds
