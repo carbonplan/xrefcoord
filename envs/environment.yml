@@ -4,6 +4,7 @@ channels:
   - nodefaults
 dependencies:
   - fsspec
+  - dask
   - git
   - hypothesis
   - imagecodecs
@@ -26,4 +27,5 @@ dependencies:
   - pip:
       - git+https://github.com/fsspec/filesystem_spec
       - git+https://github.com/fsspec/kerchunk.git
+      - git+https://github.com/xarray-contrib/datatree.git
       - -e ../.

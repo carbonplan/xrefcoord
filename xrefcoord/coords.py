@@ -45,7 +45,7 @@ def _generate_multiscale_coords(ds: xr.Dataset) -> dict:
     return dt
 
 
-def _generate_coords(ds, x_dim_name: str, y_dim_name: str) -> dict:
+def _generate_coords(ds, x_dim: str, y_dim: str) -> dict:
     # Adapted from kerchunk
 
     import imagecodecs.numcodecs
@@ -62,21 +62,21 @@ def _generate_coords(ds, x_dim_name: str, y_dim_name: str) -> dict:
         )
     import dask.array as da
 
-    def gen_xcoords(ds):
-        shape = ds[list(ds.variables)[0]].shape
+    def gen_xcoords(ds, x_dim):
+        shape = ds.sizes[x_dim]
         xscale = ds.attrs["ModelPixelScale"][0]
         x0 = ds.attrs["ModelTiepoint"][3]
 
-        return xr.DataArray(da.arange(shape[-1]) * xscale + x0 + xscale / 2, dims="x")
+        return xr.DataArray(da.arange(shape, chunks=10) * xscale + x0 + xscale / 2, dims=x_dim)
 
-    def gen_ycoords(ds):
-        shape = ds[list(ds.variables)[0]].shape
+    def gen_ycoords(ds, y_dim):
+        shape = ds.sizes[y_dim]
         yscale = ds.attrs["ModelPixelScale"][1]
         y0 = ds.attrs["ModelTiepoint"][4]
 
-        return xr.DataArray(da.arange(shape[-2]) * -yscale + y0 - yscale / 2, dims="y")
+        return xr.DataArray(da.arange(shape, chunks=10) * -yscale + y0 - yscale / 2, dims=y_dim)
 
-    ds[x_dim_name] = gen_xcoords(ds)
-    ds[y_dim_name] = gen_ycoords(ds)
+    ds.coords[x_dim] = gen_xcoords(ds, x_dim)
+    ds.coords[y_dim] = gen_ycoords(ds, y_dim)
 
     return ds
