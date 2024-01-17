@@ -32,10 +32,7 @@ def _generate_coords(attrs: dict, shape: tuple) -> dict:
     shape: tuple[int]
         The array size in numpy (C) order
     """
-    import imagecodecs.numcodecs
     import numpy as np
-
-    imagecodecs.numcodecs.register_codecs()
 
     height, width = shape[-2:]
     xscale, yscale, zscale = attrs["ModelPixelScale"][:3]

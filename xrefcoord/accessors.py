@@ -1,3 +1,4 @@
+import imagecodecs.numcodecs
 import xarray as xr
 
 from .coords import _assign_rename_coords, _drop_dims, _generate_coords, _get_shape
@@ -31,6 +32,9 @@ class XRefDatasetAccessor(XRefAccessor):
         :param y_dim_name: Y dimension name to keep
         :type y_dim_name: str
         """
+
+        imagecodecs.numcodecs.register_codecs()
+
         # Validate
         # import pdb; pdb.set_trace()
         self.validate_attrs()
